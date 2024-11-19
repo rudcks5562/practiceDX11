@@ -38,3 +38,5 @@ using namespace Microsoft::WRL;
 #pragma comment(lib,"DirectXTex\\DirectXTex.lib")
 #endif
 // 버전 2개라서 
+
+// #Define CHECK(P) assert(SUCCEEDED(hr));  // 매크로로 게임쪽 크래시유도 체크 
