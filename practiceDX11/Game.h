@@ -23,6 +23,17 @@ private:
 
 
 private:
+	void CreateGeometry();
+	void CreateInputLayout();
+	
+	void CreateVS();
+	void CreatePS();
+
+
+	void LoadShaderFromFile(const std::wstring& path, const std::string& name, const std::string& version, ComPtr<ID3DBlob>& blob);
+
+
+private:
 	HWND _hwnd;
 	uint32 _width = 0;
 	uint32 _height = 0;
@@ -41,6 +52,24 @@ private:
 	//misc 뷰포트..?
 	D3D11_VIEWPORT _viewport = {0};// 화면크기에 연관된 구조체.
 	float _clearColor[4] = {0.5f,0.5f ,0.5f ,0.5f };
+
+
+private:
+	//Geometry
+	std::vector<Vertex> _vertices;
+	// CPU<->RAM(memory) - GPU-VRAM
+	ComPtr<ID3D11Buffer> _vertexBuffer = nullptr;
+	ComPtr<ID3D11InputLayout> _inputLayout=nullptr;// 버텍스 구조 묘사자.
+
+	// VS
+	ComPtr<ID3D11VertexShader> _vertexShader = nullptr;
+	ComPtr<ID3DBlob> _vsBlob = nullptr;
+
+	// PS
+	ComPtr<ID3D11PixelShader> _pixelShader = nullptr;
+	ComPtr<ID3DBlob> _psBlob = nullptr;
+
+	//shader로드는 파일로?
 
 
 };
