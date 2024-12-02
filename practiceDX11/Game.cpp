@@ -26,6 +26,10 @@ void Game::init(HWND hwnd)
 	CreateInputLayout();
 	CreatePS();
 
+	CreateRasterizerState();
+	CreateSamplerState();
+	CreateBlendState();
+
 	CreateSRV();
 	CreateConstantBuffer();
 
@@ -34,8 +38,8 @@ void Game::init(HWND hwnd)
 void Game::update()
 {
 
-	_transformData.offset.x += 0.003f;
-	_transformData.offset.y += 0.003f;
+	//_transformData.offset.x += 0.003f;
+	//_transformData.offset.y += 0.003f;
 
 
 	D3D11_MAPPED_SUBRESOURCE subResource;
@@ -69,11 +73,18 @@ void Game::Render()
 		_deviceContext->VSSetConstantBuffers(0,1,_constantBuffer.GetAddressOf());
 
 		//RS
+		// vs가넘겨준 삼각형 내부 픽셀판별
+
+		_deviceContext->RSSetState(_rasterizerState.Get());
+
+
 
 		//PS
 		_deviceContext->PSSetShader(_pixelShader.Get(),nullptr, 0);
 		_deviceContext->PSSetShaderResources(0,1,_shaderResourceView.GetAddressOf());
 		_deviceContext->PSSetShaderResources(1, 1, _shaderResourceView2.GetAddressOf());
+		_deviceContext->PSSetSamplers(0,1,_samplerState.GetAddressOf());
+		
 		//리소스연결
 		//OM
 
@@ -326,6 +337,55 @@ void Game::CreateConstantBuffer()
 
 
 
+}
+
+void Game::CreateRasterizerState()
+{
+	D3D11_RASTERIZER_DESC desc;
+	ZeroMemory(&desc, sizeof(desc)); 
+	desc.FillMode = D3D11_FILL_SOLID;
+	desc.CullMode = D3D11_CULL_BACK;
+	desc.FrontCounterClockwise=false;
+
+
+	HRESULT hr =
+		_device->CreateRasterizerState(&desc, _rasterizerState.GetAddressOf());
+
+
+}
+
+void Game::CreateSamplerState()
+{
+
+	D3D11_SAMPLER_DESC desc;
+	ZeroMemory(&desc, sizeof(desc));
+
+	desc.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
+	desc.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;
+	desc.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
+	desc.BorderColor[0] = 1;
+	desc.BorderColor[1] = 0;
+	desc.BorderColor[2] = 0;
+	desc.BorderColor[3] = 1;
+	desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	//
+	desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	desc.MaxAnisotropy = 16;
+	desc.MaxLOD = FLT_MAX;
+	desc.MinLOD = FLT_MIN;
+
+
+	_device->CreateSamplerState(&desc,_samplerState.GetAddressOf());
+
+
+
+
+
+
+}
+
+void Game::CreateBlendState()
+{
 }
 
 void Game::LoadShaderFromFile(const std::wstring& path, const std::string& name, const std::string& version, ComPtr<ID3DBlob>& blob)
