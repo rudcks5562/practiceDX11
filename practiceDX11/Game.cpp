@@ -26,6 +26,7 @@ void Game::init(HWND hwnd)
 	CreateInputLayout();
 	CreatePS();
 
+	CreateSRV();
 
 }
 
@@ -45,6 +46,7 @@ void Game::Render()
 		uint32 offset = 0;
 
 		_deviceContext->IASetVertexBuffers(0, 1, _vertexBuffer.GetAddressOf(),&stride,&offset);
+		_deviceContext->IASetIndexBuffer(_indexBuffer.Get(), DXGI_FORMAT_R32_UINT,0);
 		_deviceContext->IASetInputLayout(_inputLayout.Get());
 		// topology?
 		_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -54,11 +56,14 @@ void Game::Render()
 
 		//PS
 		_deviceContext->PSSetShader(_pixelShader.Get(),nullptr, 0);
-
+		_deviceContext->PSSetShaderResources(0,1,_shaderResourceView.GetAddressOf());
+		_deviceContext->PSSetShaderResources(1, 1, _shaderResourceView2.GetAddressOf());
+		//리소스연결
 		//OM
 
-		_deviceContext->Draw(_vertices.size(),0);
-
+		//_deviceContext->Draw(_vertices.size(),0);
+		_deviceContext->DrawIndexed(_indices.size(), 0, 0);
+		// IDX buff 추가까지는 잘됨.
 
 
 
@@ -157,15 +162,28 @@ void Game::SetViewPort() {
 }
 void Game::CreateGeometry() {// 삼각형 데이터 형성.
 
-	_vertices.resize(3);// 삼각형이므로 점 3개 
-	_vertices[0].position = Vec3(-0.5f, -0.5f, 0.f);
-	_vertices[0].color = Color(1.0f, 0.f, 0.f, 1.f);// RGBA
+	//13
+	//02
 
-	_vertices[1].position = Vec3(0.f, 0.5f, 0.f);
-	_vertices[1].color = Color(1.0f, 0.f, 0.f, 1.f);// RGBA
+
+	_vertices.resize(4);// 삼각형이므로 점 3개
+	_vertices[0].position = Vec3(-0.5f, -0.5f, 0.f);
+	_vertices[0].uv = Vec2(0.f,1.f);
+	//_vertices[0].color = Color(1.0f, 0.f, 0.f, 1.f);// RGBA
+
+	_vertices[1].position = Vec3(-0.5f, 0.5f, 0.f);
+	//_vertices[1].color = Color(1.0f, 0.f, 0.f, 1.f);// RGBA
+	_vertices[1].uv = Vec2(0.f, 0.f);
 
 	_vertices[2].position = Vec3(0.5f, -0.5f, 0.f);
-	_vertices[2].color = Color(1.0f, 0.f, 0.f, 1.f);// RGBA
+	//_vertices[2].color = Color(1.0f, 0.f, 0.f, 1.f);// RGBA
+	_vertices[2].uv = Vec2(1.f, 1.f);
+
+	_vertices[3].position = Vec3(0.5f, 0.5f, 0.f);
+	//_vertices[3].color = Color(1.0f, 0.f, 0.f, 1.f);// RGBA
+	_vertices[3].uv = Vec2(1.f, 0.f);
+
+
 
 	// vertex buffer 
 
@@ -180,14 +198,47 @@ void Game::CreateGeometry() {// 삼각형 데이터 형성.
 	data.pSysMem = _vertices.data();// 첫번째 시작주소 전달
 
 
-	_device->CreateBuffer(&desc, &data, _vertexBuffer.GetAddressOf());
+	HRESULT hr = _device->CreateBuffer(&desc, &data, _vertexBuffer.GetAddressOf());
+
+	assert(SUCCEEDED(hr));
+	//idx 
+
+	{
+		_indices = { 0,1,2,2,1,3 };
+		 
+
+
+	}
+	//idx buff
+	{
+		D3D11_BUFFER_DESC desc;
+		ZeroMemory(&desc, sizeof(desc));
+		desc.Usage = D3D11_USAGE_IMMUTABLE; // 용도 immutable-> read only gpu!!
+		desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+		desc.ByteWidth = (uint32) (sizeof(uint32) * _indices.size());// 정점1개크기* 구성개수
+
+		D3D11_SUBRESOURCE_DATA data;
+		ZeroMemory(&data, sizeof(data));
+		data.pSysMem = _indices.data();// 첫번째 시작주소 전달
+
+
+		HRESULT hr= _device->CreateBuffer(&desc, &data, _indexBuffer.GetAddressOf());
+
+		assert(SUCCEEDED(hr));
+
+	}
+
+
+
 }
-void Game::CreateInputLayout() {
+void Game::CreateInputLayout() {// uv추가과정 
 
 	D3D11_INPUT_ELEMENT_DESC layout[] = {
 	
 		{"POSITION",0,DXGI_FORMAT_R32G32B32_FLOAT,0,0,D3D11_INPUT_PER_VERTEX_DATA,0},
-		{"COLOR",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,12,D3D11_INPUT_PER_VERTEX_DATA,0}
+		//{"COLOR",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,12,D3D11_INPUT_PER_VERTEX_DATA,0}
+		{"TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,0,12,D3D11_INPUT_PER_VERTEX_DATA,0}// uv = float*2 이므로 r32g32로
+
 
 	};// float = 4byte, 3*float = 12byte, 12 offset
 
@@ -195,7 +246,7 @@ void Game::CreateInputLayout() {
 
 	_device->CreateInputLayout(layout,count,_vsBlob->GetBufferPointer(),_vsBlob->GetBufferSize(),_inputLayout.GetAddressOf());
 	//3번째 인자가 쉐이더와 연관이 되어있기 때문에 쉐이더부터 만든다.
-
+	//blob->쉐이더 연관.
 
 
 }
@@ -220,6 +271,25 @@ void Game::CreatePS()
 	);
 	assert(SUCCEEDED(hr));
 
+
+}
+
+void Game::CreateSRV()
+{
+	DirectX::TexMetadata md;
+	DirectX::ScratchImage img;
+	HRESULT hr=::LoadFromWICFile(L"Golem.png", WIC_FLAGS_NONE, &md, img);// img load
+	assert(SUCCEEDED(hr));
+
+	hr = ::CreateShaderResourceView(_device.Get(), img.GetImages(), img.GetImageCount(), md, _shaderResourceView.GetAddressOf());
+	assert(SUCCEEDED(hr));
+	//sec srv2
+
+	 hr = ::LoadFromWICFile(L"123.png", WIC_FLAGS_NONE, &md, img);// img load
+	assert(SUCCEEDED(hr));
+
+	hr = ::CreateShaderResourceView(_device.Get(), img.GetImages(), img.GetImageCount(), md, _shaderResourceView2.GetAddressOf());
+	assert(SUCCEEDED(hr));
 
 }
 

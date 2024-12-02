@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 class Game
 {
@@ -28,6 +29,8 @@ private:
 	
 	void CreateVS();
 	void CreatePS();
+
+	void CreateSRV();
 
 
 	void LoadShaderFromFile(const std::wstring& path, const std::string& name, const std::string& version, ComPtr<ID3DBlob>& blob);
@@ -59,8 +62,11 @@ private:
 	std::vector<Vertex> _vertices;
 	// CPU<->RAM(memory) - GPU-VRAM
 	ComPtr<ID3D11Buffer> _vertexBuffer = nullptr;
-	ComPtr<ID3D11InputLayout> _inputLayout=nullptr;// 버텍스 구조 묘사자.
 
+	std::vector<uint32> _indices;
+	ComPtr<ID3D11Buffer> _indexBuffer = nullptr;
+
+	ComPtr<ID3D11InputLayout> _inputLayout = nullptr;// 버텍스 구조 묘사자.
 	// VS
 	ComPtr<ID3D11VertexShader> _vertexShader = nullptr;
 	ComPtr<ID3DBlob> _vsBlob = nullptr;
@@ -70,7 +76,8 @@ private:
 	ComPtr<ID3DBlob> _psBlob = nullptr;
 
 	//shader로드는 파일로?
-
-
+	// SRV
+	ComPtr<ID3D11ShaderResourceView> _shaderResourceView = nullptr;
+	ComPtr<ID3D11ShaderResourceView> _shaderResourceView2 = nullptr;
 };
 
