@@ -6,6 +6,13 @@ struct VS_INPUT {
     float2 uv : TEXCOORD;
 	
 };
+cbuffer TransformData : register(b0)
+{
+    float4 offset;
+	
+	
+}
+
 
 
 struct VS_OUTPUT {
@@ -19,13 +26,17 @@ struct VS_OUTPUT {
 VS_OUTPUT VS(VS_INPUT input) {// 정점단위 실행.
 
 	VS_OUTPUT output;
-	output.position = input.position;
+	output.position = input.position+offset;
 	output.uv = input.uv;// before color->uv
 
 
 
 	return output;
 }
+
+
+
+
 Texture2D texture0 : register(t0);
 Texture2D texture1 : register(t1);
 SamplerState sampler0 : register(s0);

@@ -9,3 +9,11 @@ struct Vertex {
 
 
 };
+struct TransformData {
+
+	Vec3 offset;
+	float dummy;// 정렬을 위한 쓰레기값??
+
+
+
+};
