@@ -75,7 +75,7 @@ void Game::Render()
 		//RS
 		// vs가넘겨준 삼각형 내부 픽셀판별
 
-		_deviceContext->RSSetState(_rasterizerState.Get());
+		_deviceContext->RSSetState(_rasterizerState.Get());//bind? 
 
 
 
@@ -87,6 +87,9 @@ void Game::Render()
 		
 		//리소스연결
 		//OM
+		_deviceContext->OMSetBlendState(_blendState.Get(),nullptr,0xFFFFFFFF);
+
+
 
 		//_deviceContext->Draw(_vertices.size(),0);
 		_deviceContext->DrawIndexed(_indices.size(), 0, 0);
@@ -343,14 +346,15 @@ void Game::CreateRasterizerState()
 {
 	D3D11_RASTERIZER_DESC desc;
 	ZeroMemory(&desc, sizeof(desc)); 
-	desc.FillMode = D3D11_FILL_SOLID;
-	desc.CullMode = D3D11_CULL_BACK;
-	desc.FrontCounterClockwise=false;
+	desc.FillMode = D3D11_FILL_SOLID;// wireframe option은 외곽?삼각형만 보여줌.
+	desc.CullMode = D3D11_CULL_BACK;// 컬링->스킵 (후면인식시 그리지않겠다),프론트
+	desc.FrontCounterClockwise=false;// 이걸로 전후면 판단(앞방향이 반시계인지 묻는 것)
 
 
 	HRESULT hr =
 		_device->CreateRasterizerState(&desc, _rasterizerState.GetAddressOf());
 
+	assert(SUCCEEDED(hr));
 
 }
 
@@ -366,7 +370,7 @@ void Game::CreateSamplerState()
 	desc.BorderColor[0] = 1;
 	desc.BorderColor[1] = 0;
 	desc.BorderColor[2] = 0;
-	desc.BorderColor[3] = 1;
+	desc.BorderColor[3] = 1;//rgba
 	desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
 	//
 	desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
@@ -386,6 +390,30 @@ void Game::CreateSamplerState()
 
 void Game::CreateBlendState()
 {
+
+	D3D11_BLEND_DESC desc;
+	ZeroMemory(&desc, sizeof(D3D11_BLEND));
+	desc.AlphaToCoverageEnable = false;
+	desc.IndependentBlendEnable = false;
+
+	desc.RenderTarget[0].BlendEnable = true; 
+	desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+
+	desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+
+	desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	HRESULT hr =_device->CreateBlendState(&desc,_blendState.GetAddressOf());
+
+
+	assert(SUCCEEDED(hr));
+
+
+
 }
 
 void Game::LoadShaderFromFile(const std::wstring& path, const std::string& name, const std::string& version, ComPtr<ID3DBlob>& blob)

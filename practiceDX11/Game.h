@@ -88,7 +88,7 @@ private:
 	ComPtr<ID3D11ShaderResourceView> _shaderResourceView2 = nullptr;
 
 	ComPtr<ID3D11SamplerState> _samplerState = nullptr;
-
+	ComPtr<ID3D11BlendState> _blendState = nullptr;
 private :
 	TransformData _transformData;
 	ComPtr<ID3D11Buffer> _constantBuffer;
