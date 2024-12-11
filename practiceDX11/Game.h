@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-
+#include "Graphics.h"
 class Game
 {
 
@@ -12,15 +12,6 @@ public:
 	void init(HWND hwnd);
 	void update();
 	void Render();
-
-private:
-	void RenderBegin();
-	void RenderEnd();
-
-private:
-	void CreateDeviceAndSwapChain();
-	void CreateRenderTargetView(); 
-	void SetViewPort();
 
 
 private:
@@ -39,26 +30,13 @@ private:
 	void LoadShaderFromFile(const std::wstring& path, const std::string& name, const std::string& version, ComPtr<ID3DBlob>& blob);
 
 
+
 private:
 	HWND _hwnd;
-	uint32 _width = 0;
-	uint32 _height = 0;
+	//shared_ptr<Graphics> _graphics;// precompileheader
 
-private:
-	//dx and swapchain
-	//ID3D11Device* _device;
-	//ID3D11DeviceContext* _deviceContext;
-	ComPtr<ID3D11Device> _device;
-	ComPtr<ID3D11DeviceContext> _deviceContext;
-	ComPtr<IDXGISwapChain> _swapChain = nullptr;
 
-	// RTV
-	ComPtr<ID3D11RenderTargetView> _renderTargetView;
-	//후면버퍼 묘사자.
-	//misc 뷰포트..?
-	D3D11_VIEWPORT _viewport = {0};// 화면크기에 연관된 구조체.
-	float _clearColor[4] = {0.5f,0.5f ,0.5f ,0.5f };
-
+	Graphics* _graphics;
 
 private:
 	//Geometry
@@ -92,6 +70,10 @@ private:
 private :
 	TransformData _transformData;
 	ComPtr<ID3D11Buffer> _constantBuffer;
+
+	Vec3 _localPosition = { 0.f,0.f,0.f };
+	Vec3 _localRotation = { 0.f,0.f,0.f };
+	Vec3 _localScale = { 1.f,1.f,1.f };
 
 };
 

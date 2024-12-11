@@ -40,3 +40,9 @@ using namespace Microsoft::WRL;
 // 버전 2개라서 
 
 // #Define CHECK(P) assert(SUCCEEDED(hr));  // 매크로로 게임쪽 크래시유도 체크 
+
+#define CHECK(p) assert(SUCCEEDED(p))
+
+//engine
+#include "Graphics.h"
+

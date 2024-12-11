@@ -8,8 +8,10 @@ struct VS_INPUT {
 };
 cbuffer TransformData : register(b0)
 {
-    float4 offset;
-	
+    //float4 offset;
+    row_major matrix matWorld;
+    row_major matrix matView;
+    row_major matrix matProjection;
 	
 }
 
@@ -26,7 +28,16 @@ struct VS_OUTPUT {
 VS_OUTPUT VS(VS_INPUT input) {// 정점단위 실행.
 
 	VS_OUTPUT output;
-	output.position = input.position+offset;
+	
+	//WVP
+    float4 position = mul(input.position, matWorld);//w
+    position = mul(position, matView);//v
+    position = mul(position, matProjection);//p
+	
+	
+	
+	
+    output.position = position; //offset;
 	output.uv = input.uv;// before color->uv
 
 
