@@ -45,4 +45,6 @@ using namespace Microsoft::WRL;
 
 //engine
 #include "Graphics.h"
-
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
+#include "InputLayout.h"

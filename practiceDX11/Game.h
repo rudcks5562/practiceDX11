@@ -42,12 +42,19 @@ private:
 	//Geometry
 	std::vector<Vertex> _vertices;
 	// CPU<->RAM(memory) - GPU-VRAM
-	ComPtr<ID3D11Buffer> _vertexBuffer = nullptr;
+	//ComPtr<ID3D11Buffer> _vertexBuffer = nullptr;
+	VertexBuffer* _vertexBuffer;
 
 	std::vector<uint32> _indices;
-	ComPtr<ID3D11Buffer> _indexBuffer = nullptr;
+	//ComPtr<ID3D11Buffer> _indexBuffer = nullptr;
+	IndexBuffer* _indexBuffer;
 
-	ComPtr<ID3D11InputLayout> _inputLayout = nullptr;// 버텍스 구조 묘사자.
+
+	//ComPtr<ID3D11InputLayout> _inputLayout = nullptr;// 버텍스 구조 묘사자.
+	InputLayout* _inputLayout;
+
+
+
 	// VS
 	ComPtr<ID3D11VertexShader> _vertexShader = nullptr;
 	ComPtr<ID3DBlob> _vsBlob = nullptr;

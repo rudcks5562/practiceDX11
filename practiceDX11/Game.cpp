@@ -17,6 +17,9 @@ void Game::init(HWND hwnd)
 	_hwnd = hwnd;
 	//_graphics = make_shared<Graphics>(hwnd);
 	_graphics = new Graphics(hwnd);
+	_vertexBuffer = new VertexBuffer(_graphics->GetDevice());
+	_indexBuffer = new IndexBuffer(_graphics->GetDevice());
+	_inputLayout = new InputLayout(_graphics->GetDevice());
 
 
 	CreateGeometry();
@@ -73,9 +76,9 @@ void Game::Render()
 		
 		auto _deviceContext = _graphics->GetDeviceContext();
 
-		_deviceContext->IASetVertexBuffers(0, 1, _vertexBuffer.GetAddressOf(),&stride,&offset);
-		_deviceContext->IASetIndexBuffer(_indexBuffer.Get(), DXGI_FORMAT_R32_UINT,0);
-		_deviceContext->IASetInputLayout(_inputLayout.Get());
+		_deviceContext->IASetVertexBuffers(0, 1, _vertexBuffer->GetComPtr().GetAddressOf(), &stride, &offset);
+		_deviceContext->IASetIndexBuffer(_indexBuffer->GetComPtr().Get(), DXGI_FORMAT_R32_UINT, 0);
+		_deviceContext->IASetInputLayout(_inputLayout->GetComPtr().Get());
 		// topology?
 		_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		// VS 
@@ -142,45 +145,24 @@ void Game::CreateGeometry() {// 삼각형 데이터 형성.
 
 	// vertex buffer 
 
-	D3D11_BUFFER_DESC desc;
-	ZeroMemory(&desc, sizeof(desc));
-	desc.Usage = D3D11_USAGE_IMMUTABLE; // 용도 immutable-> read only gpu!!
-	desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	desc.ByteWidth = sizeof(Vertex) * _vertices.size();// 정점1개크기* 구성개수
+		
+	{
+		_vertexBuffer->Create(_vertices);
 
-	D3D11_SUBRESOURCE_DATA data;
-	ZeroMemory(&data,sizeof(data));
-	data.pSysMem = _vertices.data();// 첫번째 시작주소 전달
+	}
 
 
-	HRESULT hr = _graphics->GetDevice()->CreateBuffer(&desc, &data, _vertexBuffer.GetAddressOf());
-
-	assert(SUCCEEDED(hr));
 	//idx 
 
 	{
 		_indices = { 0,1,2,2,1,3 };
-		 
 
 
 	}
 	//idx buff
 	{
-		D3D11_BUFFER_DESC desc;
-		ZeroMemory(&desc, sizeof(desc));
-		desc.Usage = D3D11_USAGE_IMMUTABLE; // 용도 immutable-> read only gpu!!
-		desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-		desc.ByteWidth = (uint32) (sizeof(uint32) * _indices.size());// 정점1개크기* 구성개수
 
-		D3D11_SUBRESOURCE_DATA data;
-		ZeroMemory(&data, sizeof(data));
-		data.pSysMem = _indices.data();// 첫번째 시작주소 전달
-
-
-		HRESULT hr= _graphics->GetDevice()->CreateBuffer(&desc, &data, _indexBuffer.GetAddressOf());
-
-		assert(SUCCEEDED(hr));
-
+		_indexBuffer->Create(_indices);
 	}
 
 
@@ -188,7 +170,7 @@ void Game::CreateGeometry() {// 삼각형 데이터 형성.
 }
 void Game::CreateInputLayout() {// uv추가과정 
 
-	D3D11_INPUT_ELEMENT_DESC layout[] = {
+	std::vector<D3D11_INPUT_ELEMENT_DESC> layout  {
 	
 		{"POSITION",0,DXGI_FORMAT_R32G32B32_FLOAT,0,0,D3D11_INPUT_PER_VERTEX_DATA,0},
 		//{"COLOR",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,12,D3D11_INPUT_PER_VERTEX_DATA,0}
@@ -197,9 +179,13 @@ void Game::CreateInputLayout() {// uv추가과정
 
 	};// float = 4byte, 3*float = 12byte, 12 offset
 
-	const int32 count = sizeof(layout) / sizeof(D3D11_INPUT_ELEMENT_DESC);
 
-	_graphics->GetDevice()->CreateInputLayout(layout,count,_vsBlob->GetBufferPointer(),_vsBlob->GetBufferSize(),_inputLayout.GetAddressOf());
+	_inputLayout->Create(layout,_vsBlob);
+
+
+	//const int32 count = sizeof(layout) / sizeof(D3D11_INPUT_ELEMENT_DESC);
+
+	//_graphics->GetDevice()->CreateInputLayout(layout,count,_vsBlob->GetBufferPointer(),_vsBlob->GetBufferSize(),_inputLayout.GetAddressOf());
 	//3번째 인자가 쉐이더와 연관이 되어있기 때문에 쉐이더부터 만든다.
 	//blob->쉐이더 연관.
 
