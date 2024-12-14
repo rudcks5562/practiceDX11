@@ -35,24 +35,24 @@ private:
 	HWND _hwnd;
 	//shared_ptr<Graphics> _graphics;// precompileheader
 
-
-	Graphics* _graphics;
+	std::shared_ptr<Graphics> _graphics;// smart pointer
+	//Graphics* _graphics;
 
 private:
 	//Geometry
 	std::vector<Vertex> _vertices;
 	// CPU<->RAM(memory) - GPU-VRAM
 	//ComPtr<ID3D11Buffer> _vertexBuffer = nullptr;
-	VertexBuffer* _vertexBuffer;
+	std::shared_ptr<VertexBuffer>_vertexBuffer;
+	
 
 	std::vector<uint32> _indices;
 	//ComPtr<ID3D11Buffer> _indexBuffer = nullptr;
-	IndexBuffer* _indexBuffer;
 
+	std::shared_ptr<IndexBuffer> _indexBuffer;
 
 	//ComPtr<ID3D11InputLayout> _inputLayout = nullptr;// 버텍스 구조 묘사자.
-	InputLayout* _inputLayout;
-
+	std::shared_ptr<InputLayout> _inputLayout;
 
 
 	// VS

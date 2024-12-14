@@ -15,11 +15,11 @@ Game::~Game()
 void Game::init(HWND hwnd)
 {
 	_hwnd = hwnd;
-	//_graphics = make_shared<Graphics>(hwnd);
-	_graphics = new Graphics(hwnd);
-	_vertexBuffer = new VertexBuffer(_graphics->GetDevice());
-	_indexBuffer = new IndexBuffer(_graphics->GetDevice());
-	_inputLayout = new InputLayout(_graphics->GetDevice());
+	_graphics = std::make_shared<Graphics>(hwnd);
+	//_graphics = new Graphics(hwnd);
+	_vertexBuffer = std::make_shared<VertexBuffer>(_graphics->GetDevice());
+	_indexBuffer = std::make_shared<IndexBuffer>(_graphics->GetDevice());
+	_inputLayout = std::make_shared<InputLayout>(_graphics->GetDevice());
 
 
 	CreateGeometry();
