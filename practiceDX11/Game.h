@@ -37,6 +37,7 @@ private:
 
 	std::shared_ptr<Graphics> _graphics;// smart pointer
 	//Graphics* _graphics;
+	std::shared_ptr<Geometry<VertexTextureData>> _geometry;
 
 private:
 	//Geometry

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Types.h"
+/*
 
 struct Vertex {
 	Vec3 position;// xyz
@@ -9,6 +10,10 @@ struct Vertex {
 
 
 };
+
+
+*/
+
 struct TransformData {
 
 	//Vec3 offset;

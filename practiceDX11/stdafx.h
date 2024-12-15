@@ -50,3 +50,7 @@ using namespace Microsoft::WRL;
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "InputLayout.h"
+// 전방선언으로 교체 필요
+#include"Geometry.h"
+#include "GeometryHelper.h"
+#include "VertexData.h"
