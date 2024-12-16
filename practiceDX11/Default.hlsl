@@ -49,7 +49,7 @@ VS_OUTPUT VS(VS_INPUT input) {// 정점단위 실행.
 
 
 Texture2D texture0 : register(t0);
-Texture2D texture1 : register(t1);
+//Texture2D texture1 : register(t1);
 SamplerState sampler0 : register(s0);
 
 

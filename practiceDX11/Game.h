@@ -15,19 +15,12 @@ public:
 
 
 private:
-	void CreateGeometry();
-	void CreateInputLayout();
-	
-	void CreateVS();
-	void CreatePS();
 
-	void CreateSRV();
-	void CreateConstantBuffer();
+
+
 	void CreateRasterizerState();
 	void CreateSamplerState();
 	void CreateBlendState();
-
-	void LoadShaderFromFile(const std::wstring& path, const std::string& name, const std::string& version, ComPtr<ID3DBlob>& blob);
 
 
 
@@ -46,38 +39,38 @@ private:
 	//ComPtr<ID3D11Buffer> _vertexBuffer = nullptr;
 	std::shared_ptr<VertexBuffer>_vertexBuffer;
 	
-
 	//std::vector<uint32> _indices;
 	//ComPtr<ID3D11Buffer> _indexBuffer = nullptr;
-
 	std::shared_ptr<IndexBuffer> _indexBuffer;
 
 	//ComPtr<ID3D11InputLayout> _inputLayout = nullptr;// 버텍스 구조 묘사자.
 	std::shared_ptr<InputLayout> _inputLayout;
 
-
 	// VS
-	ComPtr<ID3D11VertexShader> _vertexShader = nullptr;
-	ComPtr<ID3DBlob> _vsBlob = nullptr;
-
+	std::shared_ptr<VertexShader> _vertexShader;
+	
 	//RS
 	ComPtr<ID3D11RasterizerState> _rasterizerState=nullptr;
 
-
 	// PS
-	ComPtr<ID3D11PixelShader> _pixelShader = nullptr;
-	ComPtr<ID3DBlob> _psBlob = nullptr;
+	std::shared_ptr<PixelShader> _pixelShader;
+	
 
 	//shader로드는 파일로?
 	// SRV
-	ComPtr<ID3D11ShaderResourceView> _shaderResourceView = nullptr;
-	ComPtr<ID3D11ShaderResourceView> _shaderResourceView2 = nullptr;
+
+	std::shared_ptr<Texture> _texture1;
+	//std::shared_ptr<Texture> _texture2;
+
 
 	ComPtr<ID3D11SamplerState> _samplerState = nullptr;
 	ComPtr<ID3D11BlendState> _blendState = nullptr;
 private :
 	TransformData _transformData;
-	ComPtr<ID3D11Buffer> _constantBuffer;
+	//ComPtr<ID3D11Buffer> _constantBuffer;
+	std::shared_ptr<ConstantBuffer<TransformData>> _constantBuffer;
+
+
 
 	Vec3 _localPosition = { 0.f,0.f,0.f };
 	Vec3 _localRotation = { 0.f,0.f,0.f };
