@@ -14,9 +14,9 @@ public:
 	void* GetVertexData() { return _vertices.data(); }
 	const std::vector<T>& GetVertices() { return _vertices; }
 
-	uint32 GEtIndexCount() { return static_case<uint32>(_indices.size()); }
+	uint32 GetIndexCount() { return static_cast<uint32>(_indices.size()); }
 	void* GetIndexData() { return _indices.data(); }
-	const std::vector<uint32>& GetVertices() { return _indices; }
+	const std::vector<uint32>& GetIndices() { return _indices; }
 
 
 	void AddVertex(const T& vertex) { _vertices.push_back(vertex); }

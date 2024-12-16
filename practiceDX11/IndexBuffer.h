@@ -11,7 +11,7 @@ public:
 	uint32 GetOffset() { return _offset; }
 	uint32 GetCount() { return _count; }
 
-	void Create(std::vector<uint32>& indices);
+	void Create(const std::vector<uint32>& indices);
 
 private:
 	ComPtr<ID3D11Device> _device;

@@ -41,13 +41,13 @@ private:
 
 private:
 	//Geometry
-	std::vector<Vertex> _vertices;
+	//std::vector<Vertex> _vertices;
 	// CPU<->RAM(memory) - GPU-VRAM
 	//ComPtr<ID3D11Buffer> _vertexBuffer = nullptr;
 	std::shared_ptr<VertexBuffer>_vertexBuffer;
 	
 
-	std::vector<uint32> _indices;
+	//std::vector<uint32> _indices;
 	//ComPtr<ID3D11Buffer> _indexBuffer = nullptr;
 
 	std::shared_ptr<IndexBuffer> _indexBuffer;

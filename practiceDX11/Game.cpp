@@ -24,7 +24,7 @@ void Game::init(HWND hwnd)
 
 
 
-	//CreateGeometry();
+	CreateGeometry();
 	CreateVS();
 	CreateInputLayout();
 	CreatePS();
@@ -73,7 +73,7 @@ void Game::Render()
 	// IA- VS- RS- PS- OM
 	{
 		//IA (setting?) 
-		uint32 stride = sizeof(Vertex);
+		uint32 stride = sizeof(VertexTextureData);
 		uint32 offset = 0;
 		
 		auto _deviceContext = _graphics->GetDeviceContext();
@@ -107,7 +107,7 @@ void Game::Render()
 
 
 		//_deviceContext->Draw(_vertices.size(),0);
-		_deviceContext->DrawIndexed(_indices.size(), 0, 0);
+		_deviceContext->DrawIndexed(_geometry->GetIndices().size(), 0, 0);
 		// IDX buff 추가까지는 잘됨.
 
 
@@ -144,7 +144,7 @@ void Game::CreateGeometry() {// 삼각형 데이터 형성.
 	//idx buff
 	{
 
-		_indexBuffer->Create(_geometry->getI);
+		_indexBuffer->Create(_geometry->GetIndices());
 	}
 
 
@@ -152,17 +152,10 @@ void Game::CreateGeometry() {// 삼각형 데이터 형성.
 }
 void Game::CreateInputLayout() {// uv추가과정 
 
-	std::vector<D3D11_INPUT_ELEMENT_DESC> layout  {
-	
-		{"POSITION",0,DXGI_FORMAT_R32G32B32_FLOAT,0,0,D3D11_INPUT_PER_VERTEX_DATA,0},
-		//{"COLOR",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,12,D3D11_INPUT_PER_VERTEX_DATA,0}
-		{"TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,0,12,D3D11_INPUT_PER_VERTEX_DATA,0}// uv = float*2 이므로 r32g32로
 
 
-	};// float = 4byte, 3*float = 12byte, 12 offset
 
-
-	_inputLayout->Create(layout,_vsBlob);
+	_inputLayout->Create(VertexTextureData::descs,_vsBlob);
 
 
 	//const int32 count = sizeof(layout) / sizeof(D3D11_INPUT_ELEMENT_DESC);

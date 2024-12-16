@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "IndexBuffer.h"
 
-IndexBuffer::IndexBuffer(ComPtr<ID3D11Device> device): _device(device)
+IndexBuffer::IndexBuffer(ComPtr<ID3D11Device> device):_device(device)
 {
 }
 
@@ -9,7 +9,7 @@ IndexBuffer::~IndexBuffer()
 {
 }
 
-void IndexBuffer::Create(std::vector<uint32>& indices)
+void IndexBuffer::Create(const std::vector<uint32>& indices)
 {
 
 	_stride = sizeof(uint32);
