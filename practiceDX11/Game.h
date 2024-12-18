@@ -18,10 +18,6 @@ private:
 
 
 
-	void CreateRasterizerState();
-	void CreateSamplerState();
-	void CreateBlendState();
-
 
 
 private:
@@ -29,6 +25,8 @@ private:
 	//shared_ptr<Graphics> _graphics;// precompileheader
 
 	std::shared_ptr<Graphics> _graphics;// smart pointer
+	std::shared_ptr<Pipeline> _pipeline;
+
 	//Graphics* _graphics;
 	std::shared_ptr<Geometry<VertexTextureData>> _geometry;
 
@@ -50,7 +48,8 @@ private:
 	std::shared_ptr<VertexShader> _vertexShader;
 	
 	//RS
-	ComPtr<ID3D11RasterizerState> _rasterizerState=nullptr;
+	std::shared_ptr<RasterizerState> _rasterizerState;
+
 
 	// PS
 	std::shared_ptr<PixelShader> _pixelShader;
@@ -63,8 +62,8 @@ private:
 	//std::shared_ptr<Texture> _texture2;
 
 
-	ComPtr<ID3D11SamplerState> _samplerState = nullptr;
-	ComPtr<ID3D11BlendState> _blendState = nullptr;
+	std::shared_ptr<SamplerState> _samplerState;
+	std::shared_ptr<BlendState> _blendState;
 private :
 	TransformData _transformData;
 	//ComPtr<ID3D11Buffer> _constantBuffer;

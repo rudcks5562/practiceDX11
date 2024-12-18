@@ -45,6 +45,9 @@
     <Filter Include="소스 파일\Engine\Pipeline\OutputMerger">
       <UniqueIdentifier>{9ee3026c-eb30-48d6-a4bd-c0ed3de6f030}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Engine\Pipeline\Rasterizer">
+      <UniqueIdentifier>{7901a170-c97c-4616-90e2-eeabe1a004ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -107,6 +110,18 @@
     <ClInclude Include="Texture.h">
       <Filter>소스 파일\Engine\Pipeline\PixelShader</Filter>
     </ClInclude>
+    <ClInclude Include="RasterizerState.h">
+      <Filter>소스 파일\Engine\Pipeline\Rasterizer</Filter>
+    </ClInclude>
+    <ClInclude Include="SamplerState.h">
+      <Filter>소스 파일\Engine\Pipeline\PixelShader</Filter>
+    </ClInclude>
+    <ClInclude Include="BlendState.h">
+      <Filter>소스 파일\Engine\Pipeline\OutputMerger</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipeline.h">
+      <Filter>소스 파일\Engine\Pipeline</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="practiceDX11.rc">
@@ -163,6 +178,18 @@
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>소스 파일\Engine\Pipeline\PixelShader</Filter>
+    </ClCompile>
+    <ClCompile Include="RasterizerState.cpp">
+      <Filter>소스 파일\Engine\Pipeline\Rasterizer</Filter>
+    </ClCompile>
+    <ClCompile Include="SamplerState.cpp">
+      <Filter>소스 파일\Engine\Pipeline\PixelShader</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendState.cpp">
+      <Filter>소스 파일\Engine\Pipeline\OutputMerger</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipeline.cpp">
+      <Filter>소스 파일\Engine\Pipeline</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
