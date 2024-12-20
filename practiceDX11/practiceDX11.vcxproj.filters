@@ -48,6 +48,12 @@
     <Filter Include="소스 파일\Engine\Pipeline\Rasterizer">
       <UniqueIdentifier>{7901a170-c97c-4616-90e2-eeabe1a004ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Engine\GameObject">
+      <UniqueIdentifier>{6b4644b0-c373-4f25-b419-6d796836844b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Component">
+      <UniqueIdentifier>{ba7f696a-b303-4396-af21-f1fe74058df9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -122,6 +128,15 @@
     <ClInclude Include="Pipeline.h">
       <Filter>소스 파일\Engine\Pipeline</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>소스 파일\Engine\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>소스 파일\Engine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>소스 파일\Engine\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="practiceDX11.rc">
@@ -191,9 +206,21 @@
     <ClCompile Include="Pipeline.cpp">
       <Filter>소스 파일\Engine\Pipeline</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>소스 파일\Engine\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>소스 파일\Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>소스 파일\Engine\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Default.hlsl">
+      <Filter>소스 파일\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Color.hlsl">
       <Filter>소스 파일\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

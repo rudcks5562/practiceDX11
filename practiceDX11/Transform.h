@@ -1,0 +1,77 @@
+#pragma once
+#include "Component.h"
+
+
+class Transform:public Component
+{
+public:
+	Transform();
+	~Transform();
+
+
+	// Component을(를) 통해 상속됨
+	virtual void Init() override;
+
+	virtual void Update() override;
+
+	void UpdateTransform();
+
+
+
+	Vec3 GetLocalScale() { return _localScale;  }
+	void SetLocalScale(const Vec3& localScale) { _localScale = localScale; UpdateTransform();
+	}
+	Vec3 GetLocalRotation() { return _localRotation; }
+	void SetLocalRotation(const Vec3& localRotation) { _localRotation = localRotation; UpdateTransform();
+	}
+	Vec3 GetLocalPosition() { return _localPosition; }
+	void SetLocalPosition(const Vec3& localPosition) { _localPosition = localPosition;UpdateTransform(); }
+
+
+	//world 12/20 여기까지 하다가 중단
+	Vec3 GetScale() { return _scale; }
+	void SetScale(const Vec3& localScale) { _localScale = localScale; }
+	Vec3 GetRotation() { return _localRotation; }
+	void SetRotation(const Vec3& localRotation) { _localRotation = localRotation; }
+	Vec3 GetPosition() { return _localPosition; }
+	void SetPosition(const Vec3& localPosition) { _localPosition = localPosition; }
+
+
+	Matrix GetWorldMatrix() { return _matWorld; }
+
+	// 계층
+	bool HasParent() { return _parent != nullptr; }
+	std::shared_ptr<Transform> GetParent() { return _parent; }
+	void SetParent(std::shared_ptr<Transform> parent) { _parent = parent; }
+	const std::vector<std::shared_ptr<Transform>>& GetChildren() { return _children; }
+	void AddChild(std::shared_ptr<Transform> child) { _children.push_back(child); }
+
+
+private:
+	//srt 
+	Vec3 _localPosition = { 0.f,0.f,0.f };
+	Vec3 _localRotation = { 0.f,0.f,0.f };
+	Vec3 _localScale = { 1.f,1.f,1.f };
+
+	Matrix _matLocal = Matrix::Identity;
+	Matrix _matWorld = Matrix::Identity;
+
+
+	//cache
+	Vec3 _scale;
+
+	Vec3 _rotation;// 짐벌록? 쿼터니언?
+	Vec3 _position;
+
+	Vec3 _right;
+	Vec3 _up;
+	Vec3 _look;
+
+
+private:
+
+	std::shared_ptr<Transform> _parent;
+	std::vector<std::shared_ptr<Transform>> _children;
+
+};
+
