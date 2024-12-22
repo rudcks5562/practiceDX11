@@ -74,3 +74,59 @@ void Transform::UpdateTransform()
 		child->UpdateTransform();
 	}
 }
+
+void Transform::SetScale(const Vec3& wScale)
+{
+	if (HasParent()) {
+		Vec3 parentScale = _parent->GetScale();
+		Vec3 scale = wScale;
+		scale.x /= parentScale.x;
+		scale.y /= parentScale.y;
+		scale.z /= parentScale.z;
+		SetLocalScale(scale);
+
+
+
+	}
+	else {
+		SetLocalScale(wScale);
+	}
+
+
+}
+
+void Transform::SetRotation(const Vec3& wRotation)
+{
+
+	if (HasParent()) {
+
+		Matrix worldToParentLocalMatrix = _parent->GetWorldMatrix().Invert();// 부모-> 월드 의 역행이므로 월드->부모 좌표계
+		Vec3 rotation;
+		rotation.Transform(wRotation, worldToParentLocalMatrix);
+		SetLocalRotation(rotation);
+
+
+	}
+	else {
+		SetLocalRotation(wRotation);
+	}
+}
+
+void Transform::SetPosition(const Vec3& wPosition)// 절대좌표를 계층구조에 맞는 좌표로 변환?
+{
+	if (HasParent()) {
+
+		Matrix worldToParentLocalMatrix = _parent->GetWorldMatrix().Invert();// 부모-> 월드 의 역행이므로 월드->부모 좌표계
+		Vec3 position;
+		position.Transform(wPosition, worldToParentLocalMatrix);
+		SetLocalPosition(position);
+
+
+	}
+	else {
+		SetLocalPosition(wPosition);
+	}
+
+
+
+}

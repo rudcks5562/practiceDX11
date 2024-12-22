@@ -48,10 +48,9 @@ private:
 	//ComPtr<ID3D11Buffer> _constantBuffer;
 	std::shared_ptr<ConstantBuffer<TransformData>> _constantBuffer;
 
+	std::shared_ptr<Transform> _transform = std::make_shared<Transform>();
 
+	std::shared_ptr<Transform> _parent = std::make_shared<Transform>();
 
-	Vec3 _localPosition = { 0.f,0.f,0.f };
-	Vec3 _localRotation = { 0.f,0.f,0.f };
-	Vec3 _localScale = { 1.f,1.f,1.f };
 
 };

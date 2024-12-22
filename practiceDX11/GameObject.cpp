@@ -42,6 +42,11 @@ GameObject::GameObject(ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> 
 	_texture1->Create(L"Golem.png");
 	_samplerState = std::make_shared<SamplerState>(device);
 	_samplerState->Create();
+	
+	//TEST CODE!!
+	_parent->AddChild(_transform);
+	_transform->SetParent(_parent);
+
 
 
 }
@@ -54,16 +59,31 @@ void GameObject::Update()
 {
 	//_transformData.offset.x += 0.003f;
 //_transformData.offset.y += 0.003f;
-	_localPosition.x += 0.001f;
-	Matrix matScale = Matrix::CreateScale(_localScale / 3);
+
+
+	// parent 위치만 건드려보는 테스트
+	Vec3 pos = _parent->GetPosition();
+	pos.x += 0.001f;
+	_parent->SetPosition(pos);
+
+	Vec3 rot = _parent->GetRotation();
+	rot.z += 0.01f;
+	_parent->SetRotation(rot);
+
+
+	//Vec3 pos=_transform->GetPosition();
+	//pos.x += 0.001f;
+	//_transform->SetPosition(pos);
+
+	/* 
+		Matrix matScale = Matrix::CreateScale(_localScale / 3);
 	Matrix matRoation = Matrix::CreateRotationX(_localRotation.x);
 	matRoation *= Matrix::CreateRotationY(_localRotation.y);
 	matRoation *= Matrix::CreateRotationZ(_localRotation.z);
 	Matrix matTranslation = Matrix::CreateTranslation(_localPosition);
+	*/
 
-
-	Matrix matWorld = matScale * matRoation * matTranslation;//SRT 
-	_transformData.matWorld = matWorld;
+	_transformData.matWorld = _transform->GetWorldMatrix();
 
 
 

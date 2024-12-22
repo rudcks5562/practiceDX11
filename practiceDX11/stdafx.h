@@ -61,3 +61,4 @@ using namespace Microsoft::WRL;
 #include "SamplerState.h"
 #include "BlendState.h"
 #include "Pipeline.h"
+#include "Transform.h"

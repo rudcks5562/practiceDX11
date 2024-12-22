@@ -30,11 +30,11 @@ public:
 
 	//world 12/20 여기까지 하다가 중단
 	Vec3 GetScale() { return _scale; }
-	void SetScale(const Vec3& localScale) { _localScale = localScale; }
-	Vec3 GetRotation() { return _localRotation; }
-	void SetRotation(const Vec3& localRotation) { _localRotation = localRotation; }
-	Vec3 GetPosition() { return _localPosition; }
-	void SetPosition(const Vec3& localPosition) { _localPosition = localPosition; }
+	void SetScale(const Vec3& scale);
+	Vec3 GetRotation() { return _rotation; }
+	void SetRotation(const Vec3& rotation);
+	Vec3 GetPosition() { return _position; }
+	void SetPosition(const Vec3& position);
 
 
 	Matrix GetWorldMatrix() { return _matWorld; }
