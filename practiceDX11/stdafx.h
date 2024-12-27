@@ -5,7 +5,7 @@
 #include "Values.h"
 
 // STL
-
+#include<array>
 #include<vector>
 #include<list>
 #include<map>
@@ -62,3 +62,4 @@ using namespace Microsoft::WRL;
 #include "BlendState.h"
 #include "Pipeline.h"
 #include "Transform.h"
+#include "Component.h"

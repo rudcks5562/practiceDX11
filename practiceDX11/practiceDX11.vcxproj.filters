@@ -54,6 +54,15 @@
     <Filter Include="소스 파일\Engine\Component">
       <UniqueIdentifier>{ba7f696a-b303-4396-af21-f1fe74058df9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Engine\Component\Animation">
+      <UniqueIdentifier>{f0a80dc8-3271-40a1-9c00-fc342e0fe72e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Component\Camera">
+      <UniqueIdentifier>{629cd108-7a03-4dfd-82d9-ae5544c48950}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Component\Rendering">
+      <UniqueIdentifier>{3ff962f8-9ac9-41a8-bd5c-4fe68746ea1b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -137,6 +146,12 @@
     <ClInclude Include="Transform.h">
       <Filter>소스 파일\Engine\Component</Filter>
     </ClInclude>
+    <ClInclude Include="MonoBehavior.h">
+      <Filter>소스 파일\Engine\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>소스 파일\Engine\Component\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="practiceDX11.rc">
@@ -214,6 +229,12 @@
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>소스 파일\Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="MonoBehavior.cpp">
+      <Filter>소스 파일\Engine\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>소스 파일\Engine\Component\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -4,13 +4,14 @@
 
 class Transform:public Component
 {
+	using Super = Component;
 public:
 	Transform();
 	~Transform();
 
 
 	// Component을(를) 통해 상속됨
-	virtual void Init() override;
+	//virtual void Init() override;
 
 	virtual void Update() override;
 
@@ -36,6 +37,9 @@ public:
 	Vec3 GetPosition() { return _position; }
 	void SetPosition(const Vec3& position);
 
+	Vec3 GetRight() { return _matWorld.Right(); }
+	Vec3 GetUp() { return _matWorld.Up(); }
+	Vec3 GetLook() { return _matWorld.Backward(); }
 
 	Matrix GetWorldMatrix() { return _matWorld; }
 

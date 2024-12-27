@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Transform.h"
 
-Transform::Transform()
+Transform::Transform():Super(ComponentType::Transform)
 {
 }
 
@@ -9,9 +9,7 @@ Transform::~Transform()
 {
 }
 
-void Transform::Init()
-{
-}
+
 
 void Transform::Update()
 {
@@ -65,9 +63,6 @@ void Transform::UpdateTransform()
 	_rotation = ToEulerAngles(quat);
 	//노말 단위벡터?
 
-	_right = Vec3::Transform(Vec3::Right, _matWorld);
-	_up = Vec3::Transform(Vec3::Up, _matWorld);
-	_look = Vec3::Transform(Vec3::Right, _matWorld);
 	//오른손 좌표계 왼손 좌표계 주의하기
 
 	for (const std::shared_ptr<Transform>& child : _children) {

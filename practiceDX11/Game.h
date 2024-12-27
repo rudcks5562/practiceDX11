@@ -20,6 +20,8 @@ private:
 
 	std::shared_ptr<Graphics> _graphics;// smart pointer
 	std::shared_ptr<Pipeline> _pipeline;
-	std::shared_ptr<GameObject> _gameObject;// 여러개 
-
+	
+	//temp
+	std::shared_ptr<GameObject> _monster;// 여러개 
+	std::shared_ptr<GameObject> _camera;
 };
