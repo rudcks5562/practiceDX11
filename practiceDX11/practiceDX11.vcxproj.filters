@@ -63,6 +63,18 @@
     <Filter Include="소스 파일\Engine\Component\Rendering">
       <UniqueIdentifier>{3ff962f8-9ac9-41a8-bd5c-4fe68746ea1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Engine\Manager">
+      <UniqueIdentifier>{142a8b6a-93a5-4b5f-9849-77428655c6b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Manager\Input">
+      <UniqueIdentifier>{67712153-9997-460a-804a-0c8e3e549959}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Manager\Time">
+      <UniqueIdentifier>{bc02d5c6-ea33-4e7b-bb3f-d9156f4e7a5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Manager\Scene">
+      <UniqueIdentifier>{c118b070-9b05-4a58-9854-48ed798dd5bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -152,6 +164,15 @@
     <ClInclude Include="Camera.h">
       <Filter>소스 파일\Engine\Component\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>소스 파일\Engine\Component\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>소스 파일\Engine\Manager\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>소스 파일\Engine\Manager\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="practiceDX11.rc">
@@ -235,6 +256,15 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>소스 파일\Engine\Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderer.cpp">
+      <Filter>소스 파일\Engine\Component\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>소스 파일\Engine\Manager\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>소스 파일\Engine\Manager\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

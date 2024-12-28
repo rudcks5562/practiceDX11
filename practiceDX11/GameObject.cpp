@@ -2,55 +2,12 @@
 #include "GameObject.h"
 #include "MonoBehavior.h"
 #include "Transform.h"
+#include "Camera.h"
+#include "MeshRenderer.h"
 
 GameObject::GameObject(ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> deviceContext)
 	:_device(device)
 {
-
-	_geometry = std::make_shared<Geometry<VertexTextureData>>();
-	//_geometry = std::make_shared<Geometry<VertexColorData>>();
-	GeometryHelper::CreateRectangle(_geometry);
-	//GeometryHelper::CreateRectangle(_geometry,Color{1.0f,0.f,0.f,1.0f});
-	_vertexBuffer = std::make_shared<VertexBuffer>(device);
-	_vertexBuffer->Create(_geometry->GetVertices());
-
-	_indexBuffer = std::make_shared<IndexBuffer>(device);
-	_indexBuffer->Create(_geometry->GetIndices());//idx buff
-
-	_vertexShader = std::make_shared<VertexShader>(device);
-	_vertexShader->Create(L"Default.hlsl", "VS", "vs_5_0");//VS
-	//_vertexShader->Create(L"Color.hlsl", "VS", "vs_5_0");//VS
-
-
-	_inputLayout = std::make_shared<InputLayout>(device);
-	_inputLayout->Create(VertexTextureData::descs, _vertexShader->GetBlob());//input layout
-	//_inputLayout->Create(VertexColorData::descs, _vertexShader->GetBlob());//input layout
-
-
-	_pixelShader = std::make_shared<PixelShader>(device);
-	_pixelShader->Create(L"Default.hlsl", "PS", "ps_5_0");// PS
-
-	_rasterizerState = std::make_shared<RasterizerState>(device);
-	_rasterizerState->Create();
-
-	_blendState = std::make_shared<BlendState>(device);
-	_blendState->Create();
-
-
-	_constantBuffer = std::make_shared<ConstantBuffer<TransformData>>(device, deviceContext);
-	_constantBuffer->Create();
-	
-	_texture1 = std::make_shared<Texture>(device);
-	_texture1->Create(L"Golem.png");
-	_samplerState = std::make_shared<SamplerState>(device);
-	_samplerState->Create();
-	
-	//TEST CODE!!
-	//_parent->AddChild(_transform);
-	//_transform->SetParent(_parent);
-
-
-
 }
 
 GameObject::~GameObject()
@@ -73,7 +30,7 @@ void GameObject::Start()
 {
 	for (std::shared_ptr<Component>& component : _components) {
 		if (component)
-		component->Start();
+			component->Start();
 	}
 	for (std::shared_ptr<MonoBehavior>& script : _scripts) {
 
@@ -86,7 +43,7 @@ void GameObject::LateUpdate()
 {
 	for (std::shared_ptr<Component>& component : _components) {
 		if (component)
-		component->LateUpdate();
+			component->LateUpdate();
 	}
 	for (std::shared_ptr<MonoBehavior>& script : _scripts) {
 
@@ -114,7 +71,7 @@ void GameObject::Update()
 	//pos.x += 0.001f;
 	//_transform->SetPosition(pos);
 
-	/* 
+	/*
 		Matrix matScale = Matrix::CreateScale(_localScale / 3);
 	Matrix matRoation = Matrix::CreateRotationX(_localRotation.x);
 	matRoation *= Matrix::CreateRotationY(_localRotation.y);
@@ -122,18 +79,23 @@ void GameObject::Update()
 	Matrix matTranslation = Matrix::CreateTranslation(_localPosition);
 	*/
 	for (std::shared_ptr<Component>& component : _components) {
-		if(component)
-		component->Update();
+		if (component)
+			component->Update();
 	}
 	for (std::shared_ptr<MonoBehavior>& script : _scripts) {
 
 		script->Update();
 	}
-	_transformData.matWorld = GetOrAddTransform()->GetWorldMatrix();
+
+	//temp
+	{
+
+		if (GetCamera()){
+			return;
+		}
+	}
 
 
-
-	_constantBuffer->CopyData(_transformData);
 }
 
 void GameObject::FixedUpdate()
@@ -166,6 +128,20 @@ std::shared_ptr<Transform> GameObject::GetTransform()
 	return std::static_pointer_cast<Transform>(component);
 }
 
+std::shared_ptr<Camera> GameObject::GetCamera()
+{
+	std::shared_ptr<Component>component = GetFixedComponent(ComponentType::Camera);
+
+	return std::static_pointer_cast<Camera>(component);
+}
+
+std::shared_ptr<MeshRenderer> GameObject::GetMeshRenderer()
+{
+	std::shared_ptr<Component>component =	GetFixedComponent(ComponentType::MeshRenderer);
+
+	return std::static_pointer_cast<MeshRenderer>(component);
+} 
+
 std::shared_ptr<Transform> GameObject::GetOrAddTransform()
 {
 	
@@ -194,22 +170,3 @@ void GameObject::AddComponent(std::shared_ptr<Component> component)
 
 }
 
-void GameObject::Render(std::shared_ptr<Pipeline>pipeline)
-{
-	PipelineInfo info;
-	info.inputLayout = _inputLayout;
-	info.vertexShader = _vertexShader;
-	info.pixelShader = _pixelShader;
-	info.rasterizerState = _rasterizerState;
-	info.blendState = _blendState;
-
-	pipeline->UpdatePipeline(info);
-
-	pipeline->SetVertexBuffer(_vertexBuffer);
-	pipeline->SetIndexBuffer(_indexBuffer);
-	pipeline->SetConstantBuffer(0, SS_VertexShader, _constantBuffer);
-	pipeline->SetTexture(0, SS_PixelShader, _texture1);
-	pipeline->SetSamplerState(0, SS_PixelShader, _samplerState);
-	pipeline->DrawIndexed(_geometry->GetIndexCount(), 0, 0);
-
-}

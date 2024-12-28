@@ -2,6 +2,8 @@
 #include <string>
 #include "Graphics.h"
 #include "GameObject.h"
+class SceneManager;
+
 class Game
 {
 
@@ -14,6 +16,8 @@ public:
 	void update();
 	void Render();
 
+	std::shared_ptr<SceneManager> GetSceneManager() { return _scene; }
+
 private:
 	HWND _hwnd;
 	//shared_ptr<Graphics> _graphics;// precompileheader
@@ -24,4 +28,8 @@ private:
 	//temp
 	std::shared_ptr<GameObject> _monster;// ¿©·¯°³ 
 	std::shared_ptr<GameObject> _camera;
+
+	std::shared_ptr<SceneManager> _scene;
+
 };
+extern std::unique_ptr<Game> GGame;

@@ -44,6 +44,9 @@ using namespace Microsoft::WRL;
 // #Define CHECK(P) assert(SUCCEEDED(hr));  // 매크로로 게임쪽 크래시유도 체크 
 
 #define CHECK(p) assert(SUCCEEDED(p))
+#include "Game.h"
+#define GAME GGame
+#define SCENE GAME->GetSceneManager()
 
 //engine
 #include "Graphics.h"

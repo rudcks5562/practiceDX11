@@ -5,16 +5,22 @@ struct VS_INPUT {
 	//float4 color:COLOR;
     float2 uv : TEXCOORD;
 	
-};
-cbuffer TransformData : register(b0)
+}; 
+cbuffer CameraData : register(b0)	
 {
     //float4 offset;
-    row_major matrix matWorld;
+
     row_major matrix matView;
     row_major matrix matProjection;
 	
 }
+cbuffer TransformData : register(b1)
+{
+    //float4 offset;
+    row_major matrix matWorld;
 
+	
+}
 
 
 struct VS_OUTPUT {
