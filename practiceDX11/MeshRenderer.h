@@ -4,17 +4,19 @@ class MeshRenderer : public Component
 {
 	using Super = Component;
 public:
-	MeshRenderer(ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> deviceContext);
+	MeshRenderer(ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> deviceContext,std::shared_ptr<Pipeline>pipeLine);
 	virtual ~MeshRenderer();
 
 	virtual void Update() override;
+
+private:
 
 	void Render(std::shared_ptr<Pipeline> pipeline);
 
 private:
 
 	ComPtr<ID3D11Device> _device;
-
+	std::shared_ptr<Pipeline> _pipeLine;
 	//Geometry 
 	std::shared_ptr<Geometry<VertexTextureData>> _geometry;
 	//std::shared_ptr<Geometry<VertexColorData>> _geometry;

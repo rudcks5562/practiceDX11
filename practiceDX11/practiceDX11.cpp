@@ -32,8 +32,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     //HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_PRACTICEDX11));
     // 단축키 로드엑셀
 
-    Game game;
-    game.init(hWnd);
+   // Game game;
+    GGame->init(hWnd);
 
 
     MSG msg = {};
@@ -47,8 +47,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
         else {// game framework start  유도
 
-            game.update();
-            game.Render();
+            GGame->Update();
+            GGame->Render();
 
 
         }

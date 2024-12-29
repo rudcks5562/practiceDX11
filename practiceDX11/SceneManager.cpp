@@ -5,6 +5,7 @@
 #include "Transform.h"
 #include "MeshRenderer.h"
 #include "Camera.h" 
+#include "Game.h"
 
 
 
@@ -44,6 +45,13 @@ void SceneManager::LoadScene(std::wstring sceneName)
 	Init();
 }
 
+void SceneManager::Render()
+{
+
+
+
+}
+
 std::shared_ptr<Scene> SceneManager::LoadTestScene()
 {
 	std::shared_ptr<Scene> scene = std::make_shared<Scene>();
@@ -57,7 +65,8 @@ std::shared_ptr<Scene> SceneManager::LoadTestScene()
 
 	std::shared_ptr<GameObject> monster = std::make_shared<GameObject>(_graphics->GetDevice(), _graphics->GetDeviceContext());
 	monster->GetOrAddTransform();
-	monster->AddComponent(std::make_shared<MeshRenderer>(_graphics->GetDevice(), _graphics->GetDeviceContext()));
+	std::shared_ptr<Pipeline> pp = GGame->GetPipeLine();
+	monster->AddComponent(std::make_shared<MeshRenderer>(_graphics->GetDevice(), _graphics->GetDeviceContext(),GGame->GetPipeLine()));
 
 	scene->AddGameObject(monster);
 

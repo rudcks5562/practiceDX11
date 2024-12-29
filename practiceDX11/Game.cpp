@@ -3,7 +3,11 @@
 #include "Camera.h"
 #include "MeshRenderer.h"
 #include "SceneManager.h"
+#include "InputManager.h"
+#include "TimeManager.h"
 //class Graphics;
+
+
 
 std::unique_ptr<Game>GGame= std::make_unique<Game>();
 
@@ -20,19 +24,14 @@ void Game::init(HWND hwnd)
 	_hwnd = hwnd;
 	_graphics = std::make_shared<Graphics>(hwnd);
 	_pipeline = std::make_shared<Pipeline>(_graphics->GetDeviceContext());
+	_input = std::make_shared<InputManager>();
+	_input->Init(hwnd);
+	_time = std::make_shared<TimeManager>();
+	_time->Init();
 
-	_monster = std::make_shared<GameObject>(_graphics->GetDevice(), _graphics->GetDeviceContext());
-	_monster->GetOrAddTransform();
-	_monster->AddComponent(std::make_shared<MeshRenderer>(_graphics->GetDevice(), _graphics->GetDeviceContext()));
 
-
-	_camera = std::make_shared<GameObject>(_graphics->GetDevice(), _graphics->GetDeviceContext());
-	_camera->GetOrAddTransform();
-	_camera->AddComponent(
-		std::make_shared<Camera>());
-
-	_scene = std::make_shared<SceneManager>();
-
+	_scene = std::make_shared<SceneManager>(_graphics);
+	_scene->Init();
 
 	SCENE->LoadScene(L"Test");
 
@@ -40,13 +39,14 @@ void Game::init(HWND hwnd)
 
 }
 
-void Game::update()
+void Game::Update()
 {
 
-	_monster->Update();
+	//_monster->Update();
 
-	_camera->Update();
-
+	//_camera->Update();
+	TIME->Update();
+	INPUT->Update();
 	SCENE->Update();
 }
 
@@ -56,10 +56,10 @@ void Game::Render()
 // IA- VS- RS- PS- OM
 	_graphics->RenderBegin();// 도화지 갱신
 
-
+	SCENE->Update();
 	//HDC
 		//temp
-	_monster->GetMeshRenderer()->Render(_pipeline);
+	//_monster->GetMeshRenderer()->Render(_pipeline);
 
 	_graphics->RenderEnd();
 

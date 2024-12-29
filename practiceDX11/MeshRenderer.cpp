@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "MeshRenderer.h"
 #include "Camera.h"
+#include "Game.h"
+#include "Pipeline.h"
 
-MeshRenderer::MeshRenderer(ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> deviceContext)
-	:_device(device),Super(ComponentType::MeshRenderer)
+MeshRenderer::MeshRenderer(ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> deviceContext,std::shared_ptr<Pipeline>pipeLine)
+	:_device(device),_pipeLine(pipeLine),Super(ComponentType::MeshRenderer)
 { 
 	_geometry = std::make_shared<Geometry<VertexTextureData>>();
 	//_geometry = std::make_shared<Geometry<VertexColorData>>();
@@ -62,6 +64,9 @@ void MeshRenderer::Update()
 
 	_transformData.matWorld = GetTransform()->GetWorldMatrix();
 	_transformBuffer->CopyData(_transformData);
+
+	//Render
+	Render(_pipeLine);
 }
 
 void MeshRenderer::Render(std::shared_ptr<Pipeline> pipeline)

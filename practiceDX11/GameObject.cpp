@@ -17,7 +17,7 @@ GameObject::~GameObject()
 void GameObject::Awake()
 {
 	for (std::shared_ptr<Component>& component : _components) {
-
+		if (component)
 		component->Awake();
 	}
 	for (std::shared_ptr<MonoBehavior>& script : _scripts) {
@@ -53,31 +53,7 @@ void GameObject::LateUpdate()
 
 void GameObject::Update()
 {
-	//_transformData.offset.x += 0.003f;
-//_transformData.offset.y += 0.003f;
 
-
-	// parent 위치만 건드려보는 테스트
-	//Vec3 pos = _parent->GetPosition();
-	//pos.x += 0.001f;
-	//_parent->SetPosition(pos);
-
-	//Vec3 rot = _parent->GetRotation();
-	//rot.z += 0.01f;
-	//_parent->SetRotation(rot);
-
-
-	//Vec3 pos=_transform->GetPosition();
-	//pos.x += 0.001f;
-	//_transform->SetPosition(pos);
-
-	/*
-		Matrix matScale = Matrix::CreateScale(_localScale / 3);
-	Matrix matRoation = Matrix::CreateRotationX(_localRotation.x);
-	matRoation *= Matrix::CreateRotationY(_localRotation.y);
-	matRoation *= Matrix::CreateRotationZ(_localRotation.z);
-	Matrix matTranslation = Matrix::CreateTranslation(_localPosition);
-	*/
 	for (std::shared_ptr<Component>& component : _components) {
 		if (component)
 			component->Update();
