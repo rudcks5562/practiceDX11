@@ -6,7 +6,7 @@
 #include "MeshRenderer.h"
 #include "Camera.h" 
 #include "Game.h"
-
+#include "ResourceManager.h"
 
 
 SceneManager::SceneManager(std::shared_ptr<Graphics> graphics):_graphics(graphics)
@@ -65,8 +65,17 @@ std::shared_ptr<Scene> SceneManager::LoadTestScene()
 
 	std::shared_ptr<GameObject> monster = std::make_shared<GameObject>(_graphics->GetDevice(), _graphics->GetDeviceContext());
 	monster->GetOrAddTransform();
-	std::shared_ptr<Pipeline> pp = GGame->GetPipeLine();
-	monster->AddComponent(std::make_shared<MeshRenderer>(_graphics->GetDevice(), _graphics->GetDeviceContext(),GGame->GetPipeLine()));
+	//std::shared_ptr<Pipeline> pp = GGame->GetPipeLine();
+	auto meshRenderer = std::make_shared<MeshRenderer>(_graphics->GetDevice(), _graphics->GetDeviceContext());
+
+	monster->AddComponent(meshRenderer);
+
+
+	//todo - material , animation ..
+
+	auto mesh = RESOURCES->Get<Mesh>(L"Rectangle");
+	meshRenderer->SetMesh(mesh);
+
 
 	scene->AddGameObject(monster);
 

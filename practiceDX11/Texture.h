@@ -1,7 +1,9 @@
 #pragma once
+#include "ResourceBase.h"
 
-class Texture
+class Texture : public ResourceBase 
 {
+	using Super = ResourceBase;
 
 
 public:
