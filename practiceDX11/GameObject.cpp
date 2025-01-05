@@ -63,13 +63,6 @@ void GameObject::Update()
 		script->Update();
 	}
 
-	//temp
-	{
-
-		if (GetCamera()){
-			return;
-		}
-	}
 
 
 }

@@ -14,7 +14,7 @@ public:
 	ComPtr<ID3D11ShaderResourceView> GetComPtr() { return _shaderResourceView; }
 
 	void Create(const std::wstring& path);
-
+	Vec2 GetSize() { return _size; }
 
 private:
 
@@ -22,8 +22,7 @@ private:
 
 
 	ComPtr<ID3D11ShaderResourceView> _shaderResourceView = nullptr;
-	ComPtr<ID3D11ShaderResourceView> _shaderResourceView2 = nullptr;
-
+	Vec2 _size = { 0.f, 0.f };
 
 
 };

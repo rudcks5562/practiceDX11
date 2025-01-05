@@ -19,7 +19,7 @@ public:
 	template<typename T>
 	std::shared_ptr<T> Load(const std::wstring& key, const std::wstring& path);
 	template<typename T>
-	bool Add(const std::wstring& key, std::shared_ptr<T> obj);
+	bool Add(const std::wstring& key, std::shared_ptr<T> object);
 
 
 	template<typename T>

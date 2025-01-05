@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "Texture.h"
 
-Texture::Texture(ComPtr<ID3D11Device> device):Super(ResourceType::Texture),_device(device)
+Texture::Texture(ComPtr<ID3D11Device> device)
+	:Super(ResourceType::Texture),_device(device)
 {
 }
 

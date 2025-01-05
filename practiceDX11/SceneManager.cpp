@@ -7,6 +7,7 @@
 #include "Camera.h" 
 #include "Game.h"
 #include "ResourceManager.h"
+#include "Mesh.h"
 
 
 SceneManager::SceneManager(std::shared_ptr<Graphics> graphics):_graphics(graphics)
@@ -45,12 +46,7 @@ void SceneManager::LoadScene(std::wstring sceneName)
 	Init();
 }
 
-void SceneManager::Render()
-{
 
-
-
-}
 
 std::shared_ptr<Scene> SceneManager::LoadTestScene()
 {
