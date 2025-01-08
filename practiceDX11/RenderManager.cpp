@@ -107,9 +107,9 @@ void RenderManager::RenderObjects()
 		PushTransformData();
 
 		PipelineInfo info;
-		info.inputLayout =  MeshRenderer-> _inputLayout;
-		info.vertexShader = MeshRenderer->_vertexShader;
-		info.pixelShader = MeshRenderer->_pixelShader;
+		info.inputLayout =  MeshRenderer-> GetInputLayout();
+		info.vertexShader = MeshRenderer->GetVertexShader();
+		info.pixelShader =  MeshRenderer->GetPixelShader();
 		info.rasterizerState = _rasterizerState;
 		info.blendState = _blendState;
 
@@ -120,7 +120,7 @@ void RenderManager::RenderObjects()
 		_pipeline->SetConstantBuffer(1, SS_VertexShader, _transformBuffer);
 		_pipeline->SetConstantBuffer(0, SS_VertexShader, _cameraBuffer);
 
-		_pipeline->SetTexture(0, SS_PixelShader, MeshRenderer->_texture1);
+		_pipeline->SetTexture(0, SS_PixelShader, MeshRenderer->GetTexture());
 		_pipeline->SetSamplerState(0, SS_PixelShader, _samplerState);
 		_pipeline->DrawIndexed(MeshRenderer->GetMesh()->GetIndexBuffer()->GetCount(), 0, 0);
 

@@ -30,20 +30,14 @@ void Game::init(HWND hwnd)
 	_input->Init(hwnd);
 	_time = std::make_shared<TimeManager>();
 	_time->Init();
-
-
 	_scene = std::make_shared<SceneManager>(_graphics);
 	_scene->Init();
-
 	_resource = std::make_shared<ResourceManager>(_graphics->GetDevice());
 	_resource->Init();
-
 	_render = std::make_shared<RenderManager>(_graphics->GetDevice(), _graphics->GetDeviceContext());
-
 	_render->Init();
 
 	SCENE->LoadScene(L"Test");
-
 
 
 }
@@ -71,12 +65,4 @@ void Game::Render()
 
 
 
-
 }
-
-	//const int32 count = sizeof(layout) / sizeof(D3D11_INPUT_ELEMENT_DESC);
-
-	//_graphics->GetDevice()->CreateInputLayout(layout,count,_vsBlob->GetBufferPointer(),_vsBlob->GetBufferSize(),_inputLayout.GetAddressOf());
-	//3번째 인자가 쉐이더와 연관이 되어있기 때문에 쉐이더부터 만든다.
-	//blob->쉐이더 연관.
-	// input layout 

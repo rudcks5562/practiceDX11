@@ -2,11 +2,13 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "GameObject.h"
+#include "Camera.h"
 #include "Transform.h"
 #include "MeshRenderer.h"
-#include "Camera.h" 
-#include "Game.h"
 #include "ResourceManager.h"
+#include "Game.h"
+#include "Mesh.h"
+
 
 
 SceneManager::SceneManager(std::shared_ptr<Graphics> graphics):_graphics(graphics)
@@ -45,12 +47,7 @@ void SceneManager::LoadScene(std::wstring sceneName)
 	Init();
 }
 
-void SceneManager::Render()
-{
 
-
-
-}
 
 std::shared_ptr<Scene> SceneManager::LoadTestScene()
 {
@@ -72,6 +69,11 @@ std::shared_ptr<Scene> SceneManager::LoadTestScene()
 
 
 	//todo - material , animation ..
+
+	auto material = RESOURCES->Get<Material>(L"Default");
+	meshRenderer->SetMaterial(material);
+
+
 
 	auto mesh = RESOURCES->Get<Mesh>(L"Rectangle");
 	meshRenderer->SetMesh(mesh);

@@ -12,7 +12,7 @@
 #include<unordered_map>
 #include<iostream>
 #include<memory>
-
+using namespace std;
 
 // WIN
 
@@ -58,8 +58,7 @@ using namespace Microsoft::WRL;
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "InputLayout.h"
-// 전방선언으로 교체 필요
-#include"Geometry.h"
+#include "Geometry.h"
 #include "GeometryHelper.h"
 #include "VertexData.h"
 #include "ShaderBase.h"
@@ -70,4 +69,3 @@ using namespace Microsoft::WRL;
 #include "BlendState.h"
 #include "Pipeline.h"
 #include "Transform.h"
-#include "Component.h"

@@ -1,7 +1,10 @@
 #pragma once
 #include "Component.h"
+#include "Material.h"
+#include "Shader.h"
 
 class Mesh;
+class Material;
 
 class MeshRenderer : public Component
 {
@@ -10,11 +13,21 @@ public:
 	MeshRenderer(ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceContext> deviceContext);
 	virtual ~MeshRenderer();
 
-	virtual void Update() override;
 
-	void SetMesh(std::shared_ptr<Mesh> mesh) { _mesh = mesh; }
-	std::shared_ptr<Mesh> GetMesh() { return _mesh; }
-	//모양 외부에서 정할 수 있게-> 내부에선 겟메쉬로 응용?
+
+	void SetMaterial(shared_ptr<Material> material) { _material = material; }
+	void SetShader(shared_ptr<Shader> shader) { _material->SetShader(shader); }
+	void SetMesh(shared_ptr<Mesh> mesh) { _mesh = mesh; }
+	void SetTexture(shared_ptr<Texture> texture) { _material->SetTexture(texture); };
+
+	auto GetMaterial() { return _material; }
+	auto GetVertexShader() { return GetMaterial()->GetShader()->GetVertexShader(); }
+	auto GetInputLayout() { return GetMaterial()->GetShader()->GetInputLayout(); }
+	auto GetPixelShader() { return GetMaterial()->GetShader()->GetPixelShader(); }
+
+	shared_ptr<Mesh> GetMesh() { return _mesh; }
+	shared_ptr<Texture> GetTexture() { return GetMaterial()->GetTexture(); }
+
 
 private:
 
@@ -29,18 +42,10 @@ private:
 
 	//mesh
 	std::shared_ptr<Mesh> _mesh;
+	shared_ptr<Material> _material;
 
 
 
-	//Material
-	 std::shared_ptr<InputLayout> _inputLayout;
-	// VS
-
-
-	std::shared_ptr<VertexShader> _vertexShader;
-	//RS
-	// PS
-	std::shared_ptr<PixelShader> _pixelShader;
 
 	std::shared_ptr<Texture> _texture1;
 	//shader로드는 파일로?
