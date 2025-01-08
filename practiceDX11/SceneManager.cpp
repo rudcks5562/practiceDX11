@@ -7,8 +7,8 @@
 #include "MeshRenderer.h"
 #include "ResourceManager.h"
 #include "Game.h"
+#include "ResourceManager.h"
 #include "Mesh.h"
-
 
 
 SceneManager::SceneManager(std::shared_ptr<Graphics> graphics):_graphics(graphics)
