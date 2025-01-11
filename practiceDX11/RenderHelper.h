@@ -27,6 +27,7 @@ struct AnimationData
 	Vec2 spriteSize;
 	Vec2 textureSize;
 	float useAnimation;
-	float padding;
+	float padding;//16byte맞춰줘야함. float2개가 부족? -> 조사
+
 };
 

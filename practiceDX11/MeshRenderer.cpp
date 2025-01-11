@@ -14,8 +14,8 @@ MeshRenderer::MeshRenderer(ComPtr<ID3D11Device> device, ComPtr<ID3D11DeviceConte
 
 	//_vertexShader->Create(L"Color.hlsl", "VS", "vs_5_0");//VS
 
-	_texture1 = std::make_shared<Texture>(device);
-	_texture1->Create(L"Golem.png");
+	//_texture1 = std::make_shared<Texture>(device);
+	//_texture1->Create(L"Golem.png");
 
 
 }

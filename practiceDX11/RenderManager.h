@@ -14,6 +14,8 @@ public:
 private:
 	void PushCameraData();
 	void PushTransformData();
+	void PushAnimationData();
+
 
 	void GatherRenderableObjects();
 	void RenderObjects();
@@ -30,6 +32,10 @@ public:
 	TransformData _transformData;//srt
 	//ComPtr<ID3D11Buffer> _constantBuffer;
 	std::shared_ptr<ConstantBuffer<TransformData>> _transformBuffer;
+
+	//anim
+	AnimationData _animationData;
+	std::shared_ptr<ConstantBuffer<AnimationData>> _animationBuffer;
 
 
 private:

@@ -7,7 +7,8 @@
 #include "Scene.h"
 #include "Game.h"
 #include "Mesh.h"
-
+#include "Animator.h"
+#include "GameObject.h"
 
 RenderManager::RenderManager(ComPtr<ID3D11Device>device, ComPtr<ID3D11DeviceContext>deviceContext)
 	:_device(device),_deviceContext(deviceContext)
@@ -24,6 +25,10 @@ void RenderManager::Init()
 
 	_cameraBuffer = std::make_shared<ConstantBuffer<CameraData>>(_device, _deviceContext);
 	_cameraBuffer->Create();
+
+	_animationBuffer = make_shared<ConstantBuffer<AnimationData>>(_device, _deviceContext);
+	_animationBuffer->Create();
+
 
 	_rasterizerState = std::make_shared<RasterizerState>(_device);
 	_rasterizerState->Create();
@@ -66,19 +71,25 @@ void RenderManager::PushTransformData()
 
 }
 
+void RenderManager::PushAnimationData()
+{
+
+	_animationBuffer->CopyData(_animationData);
+}
+
 void RenderManager::GatherRenderableObjects()
 {
 
 	_renderObjects.clear();
 
 	auto& GameObjects = SCENE->GetActiveScene()->GetGameObjects();
-	for (const std::shared_ptr<GameObject>& GameObject : GameObjects) {
+	for (const std::shared_ptr<GameObject>& gameObject : GameObjects) {
 
-		std::shared_ptr<MeshRenderer> MeshRenderer = GameObject->GetMeshRenderer();
+		std::shared_ptr<MeshRenderer> MeshRenderer = gameObject->GetMeshRenderer();
 		if (MeshRenderer) {
 
 
-			_renderObjects.push_back(GameObject);
+			_renderObjects.push_back(gameObject);
 		}
 		//바로처리?
 		//한 프레임 안에서 여러번 쓸 수 있어서 분리?
@@ -91,20 +102,44 @@ void RenderManager::GatherRenderableObjects()
 
 void RenderManager::RenderObjects()
 {
-	for (const std::shared_ptr<GameObject>& GameObject : _renderObjects) {
+	for (const std::shared_ptr<GameObject>& gameObject : _renderObjects) {
 
-		std::shared_ptr<MeshRenderer> MeshRenderer = GameObject->GetMeshRenderer();
+		std::shared_ptr<MeshRenderer> MeshRenderer = gameObject->GetMeshRenderer();
 		if (MeshRenderer == nullptr) {
 			continue;
 		}
 
-		std::shared_ptr<Transform> transform = GameObject->GetTransform();
+		std::shared_ptr<Transform> transform = gameObject->GetTransform();
 		if (transform == nullptr) {
 			continue;
 		}
 		//srt
 		_transformData.matWorld = transform->GetWorldMatrix();
 		PushTransformData();
+
+		// animation
+
+		shared_ptr<Animator>animator = gameObject->GetAnimator();
+		if (animator) {
+			const keyFrame& keyFrame = animator->GetCurrentKeyFrame();
+			_animationData.spriteOffset = keyFrame.offset;
+			_animationData.spriteSize = keyFrame.size;
+			_animationData.textureSize = animator->GetCurrentAnimation()->GetTextureSize();
+			_animationData.useAnimation = 1.f;
+			PushAnimationData();
+
+			_pipeline->SetConstantBuffer(2, SS_VertexShader, _animationBuffer);
+			_pipeline->SetTexture(0, SS_PixelShader, animator->GetCurrentAnimation()->GetTexture());
+
+		}
+		else {
+			_animationData.spriteOffset = Vec2(0.f, 0.f);
+			_animationData.spriteSize = Vec2(0.f, 0.f);
+			_animationData.textureSize = Vec2(0.f, 0.f);
+			_animationData.useAnimation = 1; 
+			PushAnimationData();
+		}
+
 
 		PipelineInfo info;
 		info.inputLayout =  MeshRenderer-> GetInputLayout();
@@ -120,7 +155,7 @@ void RenderManager::RenderObjects()
 		_pipeline->SetConstantBuffer(1, SS_VertexShader, _transformBuffer);
 		_pipeline->SetConstantBuffer(0, SS_VertexShader, _cameraBuffer);
 
-		_pipeline->SetTexture(0, SS_PixelShader, MeshRenderer->GetTexture());
+		//_pipeline->SetTexture(0, SS_PixelShader, MeshRenderer->GetTexture());
 		_pipeline->SetSamplerState(0, SS_PixelShader, _samplerState);
 		_pipeline->DrawIndexed(MeshRenderer->GetMesh()->GetIndexBuffer()->GetCount(), 0, 0);
 

@@ -1,6 +1,6 @@
 
 struct VS_INPUT {
-
+ 
 	float4 position:POSITION;
 	//float4 color:COLOR;
     float2 uv : TEXCOORD;
@@ -20,6 +20,14 @@ cbuffer TransformData : register(b1)
     row_major matrix matWorld;
 
 	
+}
+cbuffer AnimationData : register(b2){
+
+
+float2 spriteOffset;
+float2 spriteSize;
+float2 textureSize;
+float useAnimation;
 }
 
 
@@ -46,7 +54,11 @@ VS_OUTPUT VS(VS_INPUT input) {// 정점단위 실행.
     output.position = position; //offset;
 	output.uv = input.uv;// before color->uv
 
+if(useAnimation == 1.0f){
+output.uv *= spriteSize/textureSize;
+output.uv += spriteOffset/textureSize;
 
+}
 
 	return output;
 }

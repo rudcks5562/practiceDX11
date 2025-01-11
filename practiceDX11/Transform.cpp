@@ -11,6 +11,10 @@ Transform::~Transform()
 
 
 
+void Transform::Awake()
+{
+}
+
 void Transform::Update()
 {
 }

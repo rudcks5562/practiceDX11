@@ -4,6 +4,7 @@ class MonoBehavior;
 class Transform;
 class Camera;
 class MeshRenderer;
+class Animator;
 
 class GameObject : public std::enable_shared_from_this<GameObject>
 {
@@ -23,7 +24,7 @@ public:
 	std::shared_ptr<Camera> GetCamera();
 	std::shared_ptr<MeshRenderer> GetMeshRenderer();
 	std::shared_ptr<Transform> GetOrAddTransform();
-
+	std::shared_ptr<Animator>GetAnimator();
 	void AddComponent(std::shared_ptr<Component> component);
 
 

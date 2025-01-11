@@ -27,7 +27,12 @@ void ResourceManager::CreateDefaultTexture()
 		texture->Create(L"Golem.png");
 		Add(texture->GetName(), texture);
 	}
-
+	{
+		auto texture = std::make_shared<Texture>(_device);
+		texture->SetName(L"Snake");
+		texture->Create(L"Snake.bmp");
+		Add(texture->GetName(), texture);
+	}
 	
 
 }
@@ -80,5 +85,19 @@ void ResourceManager::CreateDefaultMaterial()
 
 void ResourceManager::CreateDefaultAnimation()
 {
+
+	shared_ptr<Animation> animation = make_shared<Animation>();
+	animation->SetName(L"SnakeAnim");
+	animation->SetTexture(Get<Texture>(L"Snake"));
+	animation->SetLoop(true);
+
+
+	animation->AddKeyFrame(keyFrame{ Vec2{0.f,0.f},Vec2{100.f,100.f},0.1f});
+	animation->AddKeyFrame(keyFrame{ Vec2{100.f,0.f},Vec2{100.f,100.f},0.1f });
+	animation->AddKeyFrame(keyFrame{ Vec2{200.f,0.f},Vec2{100.f,100.f},0.1f });
+	animation->AddKeyFrame(keyFrame{ Vec2{300.f,0.f},Vec2{100.f,100.f},0.1f });
+
+	Add(animation->GetName(), animation);
+	//xml
 
 }

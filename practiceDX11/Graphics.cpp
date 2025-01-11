@@ -84,11 +84,11 @@ void Graphics::CreateRenderTargetView()
 
 void Graphics::SetViewPort()
 {
-	_viewport.TopLeftX = 0.f;
-	_viewport.TopLeftY = 0.f;// »ó´Ü ¿ÞÂÊ ÁÂÇ¥´Â ¹«ÇÑ 
+	_viewport.TopLeftX = 0.0f;
+	_viewport.TopLeftY = 0.0f;// »ó´Ü ¿ÞÂÊ ÁÂÇ¥´Â ¹«ÇÑ 
 	_viewport.Width = static_cast<float>(GWinSizeX);
 	_viewport.Height = static_cast<float>(GWinSizeY);
-	_viewport.MinDepth = 0.f;
-	_viewport.MaxDepth = 1.f;// ±íÀÌ? 
+	_viewport.MinDepth = 0.0f;
+	_viewport.MaxDepth = 1.0f;// ±íÀÌ? 
 
 }

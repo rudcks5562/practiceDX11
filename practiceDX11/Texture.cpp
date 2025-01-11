@@ -20,6 +20,7 @@ void Texture::Create(const std::wstring& path)
 	hr = ::CreateShaderResourceView(_device.Get(), img.GetImages(), img.GetImageCount(), md, _shaderResourceView.GetAddressOf());
 	assert(SUCCEEDED(hr));
 	
-
+	_size.x = md.width;
+	_size.y = md.height;
 
 }

@@ -36,7 +36,7 @@ void Camera::UpdateMatrix()
 
 	}
 	else {
-		::XMMatrixOrthographicLH(800, 600, 0.f, 1.f);
+		::XMMatrixOrthographicLH(8, 6, 0.f, 1.f);
 	}
 
 

@@ -94,10 +94,10 @@ void Pipeline::SetTexture(uint32 slot, uint32 scope, std::shared_ptr<Texture> te
 void Pipeline::SetSamplerState(uint32 slot, uint32 scope, std::shared_ptr<SamplerState> samplerState)
 {
 	if (scope & SS_VertexShader)
-		_deviceContext->PSSetSamplers(slot, 1, samplerState->GetComPtr().GetAddressOf());
+		_deviceContext->PSSetSamplers(0, 1, samplerState->GetComPtr().GetAddressOf());
 
 	if (scope & SS_PixelShader)
-		_deviceContext->PSSetSamplers(slot, 1, samplerState->GetComPtr().GetAddressOf());
+		_deviceContext->PSSetSamplers(0, 1, samplerState->GetComPtr().GetAddressOf());
 
 }
 
