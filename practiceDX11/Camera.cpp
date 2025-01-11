@@ -29,14 +29,14 @@ void Camera::UpdateMatrix()
 	// 또는 월드행렬의 역행렬
 
 
-	S_MatView = Matrix::Identity;
+	S_MatView = GetTransform()->GetWorldMatrix().Invert();
 
 	if (_type == ProjectionType::Perspective) {
-		::XMMatrixPerspectiveFovLH(XM_PI / 4.f, 800.f / 600.f, 1.f, 100.f);
+		S_MatProjection = ::XMMatrixPerspectiveFovLH(XM_PI / 4.f, 800.f / 600.f, 1.f, 100.f);
 
 	}
 	else {
-		::XMMatrixOrthographicLH(8, 6, 0.f, 1.f);
+		S_MatProjection = ::XMMatrixOrthographicLH(8, 6, 0.f, 1.f);
 	}
 
 
