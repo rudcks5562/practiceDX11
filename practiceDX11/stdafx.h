@@ -20,6 +20,11 @@ using namespace std;
 #include <assert.h>
 
 
+//util
+#include "tinyxml2.h"
+using namespace tinyxml2;
+
+
 // DX
 #include <d3d11.h>
 #include <d3dcompiler.h>

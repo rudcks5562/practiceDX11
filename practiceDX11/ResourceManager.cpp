@@ -100,4 +100,12 @@ void ResourceManager::CreateDefaultAnimation()
 	Add(animation->GetName(), animation);
 	//xml
 
+
+
+	animation->Save(L"TestAnim.xml");
+
+
+	shared_ptr<Animation> anim2 = make_shared<Animation>();
+	anim2->Load(L"TestAnim.xml");
+
 }
